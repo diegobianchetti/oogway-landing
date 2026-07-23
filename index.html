@@ -15,6 +15,9 @@
       --verde-escuro:    #0F6E56;
       --verde-profundo:  #085041;
       --fundo:           #f7faf9;
+      --halo:            rgba(29, 158, 117, 0.10);
+      --linha:           rgba(15, 110, 86, 0.35);
+      --glow:            rgba(29, 158, 117, 0.45);
     }
 
     @media (prefers-color-scheme: dark) {
@@ -25,6 +28,9 @@
         --verde-escuro:    #7fd9bb;
         --verde-profundo:  #d8f3e9;
         --fundo:           #0b1512;
+        --halo:            rgba(62, 203, 156, 0.09);
+        --linha:           rgba(127, 217, 187, 0.30);
+        --glow:            rgba(62, 203, 156, 0.45);
       }
     }
 
@@ -40,32 +46,21 @@
       transition: background-color 0.3s, color 0.3s;
     }
 
-    /* ── Bambu decorativo ── */
-    .bamboo-left,
-    .bamboo-right {
+    /* Luz do jardim — glow que nasce no topo e se dissolve */
+    body::before {
+      content: '';
       position: fixed;
-      top: 0;
-      bottom: 0;
-      width: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 20px;
-      opacity: 0.18;
+      inset: 0;
+      background: radial-gradient(ellipse 90% 45% at 50% -8%, var(--halo), transparent);
       pointer-events: none;
       z-index: 0;
     }
-    .bamboo-left  { left: 18px; }
-    .bamboo-right { right: 18px; }
-
-    .seg  { width: 8px;  height: 28px; background: #1D9E75; border-radius: 2px; margin-bottom: 4px; }
-    .node { width: 12px; height: 4px;  background: #0F6E56; border-radius: 2px; margin-bottom: 4px; }
 
     /* ── Layout principal ── */
     .page {
       position: relative;
       z-index: 1;
-      max-width: 780px;
+      max-width: 760px;
       margin: 0 auto;
       padding: 0 24px 64px;
     }
@@ -76,38 +71,61 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding: 72px 0 56px;
+      padding: 80px 0 56px;
+      animation: rise 0.6s ease-out both;
     }
 
     .logo-turtle {
-      margin-bottom: 20px;
+      position: relative;
+      width: 104px;
+      height: 104px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: var(--verde-principal);
+    }
+
+    .logo-turtle::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--halo) 0%, transparent 68%);
+      animation: halo-breathe 7s ease-in-out infinite;
+    }
+
+    .logo-turtle svg {
+      position: relative;
+      animation: float 7s ease-in-out infinite;
     }
 
     .name {
       font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
-      font-size: 32px;
+      font-size: 42px;
       font-weight: 500;
       color: var(--verde-profundo);
-      letter-spacing: -0.01em;
-      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
     }
 
     .role {
-      font-size: 13px;
-      color: var(--verde-escuro);
-      letter-spacing: 0.14em;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      color: var(--verde-principal);
+      letter-spacing: 0.22em;
       text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 18px;
+      font-weight: 500;
+      margin-bottom: 26px;
     }
 
     .thesis {
       font-family: Georgia, "Iowan Old Style", serif;
       font-style: italic;
-      font-size: 16px;
+      font-size: 17px;
       color: var(--verde-escuro);
+      line-height: 1.65;
       white-space: nowrap;
-      line-height: 1.5;
     }
 
     /* ── Divisor ── */
@@ -116,21 +134,22 @@
       height: 2px;
       background: var(--verde-medio);
       border-radius: 2px;
-      margin: 40px auto 32px;
+      margin: 44px auto 36px;
     }
 
     /* ── Seções ── */
     section {
-      margin-bottom: 56px;
+      margin-bottom: 64px;
     }
 
     .section-title {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
       text-transform: uppercase;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.18em;
       color: var(--verde-medio);
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     /* ── Stack técnica ── */
@@ -150,16 +169,98 @@
       font-size: 13px;
       color: var(--verde-escuro);
       background: transparent;
-      transition: background 0.15s;
+      transition: background 0.15s, border-color 0.15s;
     }
 
     .stack-badge:hover {
       background: var(--verde-claro);
+      border-color: var(--verde-principal);
     }
 
     .stack-badge svg {
       flex-shrink: 0;
       opacity: 0.85;
+    }
+
+    /* ── A trilha ── */
+    .trilha {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .trilha::before {
+      content: '';
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      border-radius: 2px;
+      background: var(--linha);
+      transform-origin: top;
+      animation: grow-line 1.1s ease-out 0.05s both;
+    }
+
+    /* Viajante da trilha — mini-tartaruga que percorre a linha com o scroll (via JS) */
+    .trilha-viajante {
+      position: absolute;
+      left: -2px;
+      top: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--fundo);
+      color: var(--verde-principal);
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .trilha-viajante svg {
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .estacao {
+      position: relative;
+      margin-bottom: 36px;
+      animation: rise 0.55s ease-out both;
+    }
+    .estacao:last-of-type { margin-bottom: 0; }
+    .estacao:nth-of-type(1) { animation-delay: 0.10s; }
+    .estacao:nth-of-type(2) { animation-delay: 0.18s; }
+    .estacao:nth-of-type(3) { animation-delay: 0.26s; }
+    .estacao:nth-of-type(4) { animation-delay: 0.34s; }
+    .estacao:nth-of-type(5) { animation-delay: 0.42s; }
+    .estacao:nth-of-type(6) { animation-delay: 0.50s; }
+
+    /* Nó da estação — centro alinhado à linha da trilha */
+    .estacao::before {
+      content: '';
+      position: absolute;
+      left: -26px;
+      top: 3px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--verde-principal);
+      box-shadow: 0 0 0 3px var(--fundo);
+    }
+
+    .estacao-label {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--verde-escuro);
+      margin-bottom: 14px;
+    }
+
+    .estacao-num {
+      color: var(--verde-principal);
+      margin-right: 10px;
     }
 
     /* ── Cards de repositório ── */
@@ -177,12 +278,23 @@
       text-decoration: none;
       color: inherit;
       background: transparent;
-      transition: background 0.15s, border-color 0.15s;
+      transition: background 0.15s, border-color 0.15s, transform 0.15s;
     }
 
     .repo-card:hover {
       background: var(--verde-claro);
       border-color: var(--verde-principal);
+      transform: translateY(-1px);
+    }
+
+    .repo-card:focus-visible,
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--verde-principal);
+      outline-offset: 2px;
+    }
+
+    .repo-card--wide {
+      grid-column: 1 / -1;
     }
 
     .repo-name {
@@ -223,10 +335,11 @@
     .legend {
       display: flex;
       gap: 20px;
-      margin-top: 16px;
+      margin-top: 20px;
+      padding-left: 28px;
       font-size: 11px;
-      color: var(--verde-medio);
-      font-family: ui-monospace, monospace;
+      color: var(--verde-escuro);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
     }
     .legend span { display: inline-flex; align-items: center; gap: 6px; }
     .legend .ring { position: static; }
@@ -269,13 +382,13 @@
       padding: 24px 0;
       border-top: 0.5px solid var(--verde-medio);
       font-size: 11px;
-      color: var(--verde-medio);
-      font-family: monospace;
+      color: var(--verde-escuro);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       letter-spacing: 0.05em;
     }
 
     footer a {
-      color: var(--verde-medio);
+      color: var(--verde-escuro);
       text-decoration: none;
     }
 
@@ -283,13 +396,46 @@
       color: var(--verde-principal);
     }
 
+    /* ── Animações ── */
+    @keyframes rise {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    @keyframes grow-line {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+
+    @keyframes halo-breathe {
+      0%, 100% { transform: scale(1);    opacity: 0.75; }
+      50%      { transform: scale(1.12); opacity: 1; }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-3px); }
+    }
+
     /* ── Responsivo ── */
     @media (max-width: 480px) {
-      .bamboo-left, .bamboo-right { display: none; }
-      header { padding: 48px 0 40px; }
-      .name { font-size: 24px; }
-      .thesis { font-size: 13px; white-space: normal; max-width: 300px; margin: 0 auto; }
+      header { padding: 56px 0 44px; }
+      .name { font-size: 30px; }
+      .thesis { font-size: 15px; white-space: normal; max-width: 320px; }
+      .trilha { padding-left: 22px; }
+      .trilha::before { left: 5px; }
+      .trilha-viajante { left: -3px; }
+      .estacao::before { left: -21px; }
+      .legend { padding-left: 22px; }
       .repos-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ── Movimento reduzido ── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 
@@ -304,45 +450,21 @@
 </head>
 <body>
 
-  <!-- Bambu decorativo -->
-  <div class="bamboo-left">
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-  </div>
-  <div class="bamboo-right">
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-    <div class="seg"></div><div class="node"></div>
-  </div>
-
   <div class="page">
 
     <!-- Header -->
     <header>
       <div class="logo-turtle">
-        <svg width="80" height="80" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-label="Oogway">
-          <ellipse cx="26" cy="34" rx="16" ry="11" fill="#1D9E75"/>
-          <ellipse cx="26" cy="33" rx="10" ry="7" fill="#0F6E56" opacity="0.5"/>
-          <line x1="26" y1="26" x2="26" y2="40" stroke="#1D9E75" stroke-width="0.8"/>
-          <line x1="19" y1="29" x2="33" y2="37" stroke="#1D9E75" stroke-width="0.8"/>
-          <line x1="19" y1="37" x2="33" y2="29" stroke="#1D9E75" stroke-width="0.8"/>
-          <circle cx="26" cy="21" r="5" fill="#1D9E75"/>
-          <circle cx="28" cy="20" r="1" fill="#085041"/>
-          <ellipse cx="12" cy="36" rx="5" ry="3" fill="#1D9E75" transform="rotate(-20 12 36)"/>
-          <ellipse cx="40" cy="36" rx="5" ry="3" fill="#1D9E75" transform="rotate(20 40 36)"/>
-          <ellipse cx="14" cy="44" rx="5" ry="3" fill="#1D9E75" transform="rotate(15 14 44)"/>
-          <ellipse cx="38" cy="44" rx="5" ry="3" fill="#1D9E75" transform="rotate(-15 38 44)"/>
+        <svg width="88" height="88" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-label="Oogway" fill="none" stroke="currentColor" stroke-linecap="round">
+          <ellipse cx="11" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(-35 11 20)"/>
+          <ellipse cx="41" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(35 41 20)"/>
+          <ellipse cx="11" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(35 11 38)"/>
+          <ellipse cx="41" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(-35 41 38)"/>
+          <circle cx="26" cy="29" r="14" stroke-width="2"/>
+          <path d="M26 15 L26 23.5 M38.1 22 L30.8 26.2 M38.1 36 L30.8 31.8 M26 43 L26 34.5 M13.9 36 L21.2 31.8 M13.9 22 L21.2 26.2" stroke-width="1"/>
+          <path d="M26 23.5 L30.8 26.2 L30.8 31.8 L26 34.5 L21.2 31.8 L21.2 26.2 Z" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
+          <circle cx="26" cy="11" r="4" stroke-width="2"/>
+          <circle cx="27.3" cy="10" r="0.9" fill="currentColor" stroke="none"/>
         </svg>
       </div>
       <p class="name">Diego Bianchetti</p>
@@ -419,90 +541,156 @@
       </div>
     </section>
 
-    <!-- Repositórios -->
+    <!-- Repositórios — a trilha -->
     <section>
       <div class="divider"></div>
       <p class="section-title">Repositórios em destaque</p>
-      <div class="repos-grid">
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/ansible-docker-setup" target="_blank" rel="noopener">
-          <span class="ring ring--estavel"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            ansible-docker-setup
-          </p>
-          <p class="repo-desc">Playbook Ansible para instalação e padronização de hosts Docker em produção.</p>
-        </a>
+      <div class="trilha">
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/nginx-container-hardening" target="_blank" rel="noopener">
-          <span class="ring ring--estavel"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            nginx-container-hardening
-          </p>
-          <p class="repo-desc">Nginx como container com hardening de segurança e boas práticas de produção.</p>
-        </a>
+        <div class="estacao">
+          <p class="estacao-label"><span class="estacao-num">01</span>Fundação</p>
+          <div class="repos-grid">
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/docker-compose-templates" target="_blank" rel="noopener">
-          <span class="ring ring--estavel"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            docker-compose-templates
-          </p>
-          <p class="repo-desc">Templates comentados de ambientes multi-serviço prontos para uso.</p>
-        </a>
+            <a class="repo-card" href="https://github.com/diegobianchetti/ansible-docker-setup" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                ansible-docker-setup
+              </p>
+              <p class="repo-desc">Playbook Ansible para instalação e padronização de hosts Docker em produção.</p>
+            </a>
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/container-migration-notes" target="_blank" rel="noopener">
-          <span class="ring ring--estavel"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            container-migration-notes
-          </p>
-          <p class="repo-desc">Guia prático de containerização de sistemas existentes com casos reais.</p>
-        </a>
+            <a class="repo-card" href="https://github.com/diegobianchetti/nginx-container-hardening" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                nginx-container-hardening
+              </p>
+              <p class="repo-desc">Nginx como container com hardening de segurança — pronto para uso independente.</p>
+            </a>
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/moodle" target="_blank" rel="noopener">
-          <span class="ring ring--andamento"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            moodle
-          </p>
-          <p class="repo-desc">Imagens Docker otimizadas para Moodle com Alpine PHP e PostgreSQL.</p>
-        </a>
+          </div>
+        </div>
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/cctl" target="_blank" rel="noopener">
-          <span class="ring ring--andamento"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            cctl
-          </p>
-          <p class="repo-desc">CLI para gerenciamento de containers e automação do proxy reverso Nginx.</p>
-        </a>
+        <div class="estacao">
+          <p class="estacao-label"><span class="estacao-num">02</span>Ambiente de testes</p>
+          <div class="repos-grid">
 
-        <a class="repo-card" href="https://github.com/diegobianchetti/nginx-proxy" target="_blank" rel="noopener">
-          <span class="ring ring--estavel"></span>
-          <p class="repo-name">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-            </svg>
-            nginx-proxy
-          </p>
-          <p class="repo-desc">Proxy reverso containerizado com hardening Nginx e identidade visual Oogway.</p>
-        </a>
+            <a class="repo-card" href="https://github.com/diegobianchetti/vagrant-libvirt-lab" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                vagrant-libvirt-lab
+              </p>
+              <p class="repo-desc">Lab descartável KVM/libvirt com Vagrant para testes de infraestrutura.</p>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="estacao">
+          <p class="estacao-label"><span class="estacao-num">03</span>Base operacional</p>
+          <div class="repos-grid">
+
+            <a class="repo-card" href="https://github.com/diegobianchetti/docker-compose-templates" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                docker-compose-templates
+              </p>
+              <p class="repo-desc">Templates comentados de ambientes multi-serviço prontos para uso.</p>
+            </a>
+
+            <a class="repo-card" href="https://github.com/diegobianchetti/nginx-proxy" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                nginx-proxy
+              </p>
+              <p class="repo-desc">Proxy reverso containerizado — usado pelo cctl, funciona standalone.</p>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="estacao">
+          <p class="estacao-label"><span class="estacao-num">04</span>Orquestrador</p>
+          <div class="repos-grid">
+
+            <a class="repo-card repo-card--wide" href="https://github.com/diegobianchetti/cctl" target="_blank" rel="noopener">
+              <span class="ring ring--andamento"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                cctl
+              </p>
+              <p class="repo-desc">CLI que provisiona, instala e gerencia as stacks desta página.</p>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="estacao">
+          <p class="estacao-label"><span class="estacao-num">05</span>Instaladas via cctl</p>
+          <div class="repos-grid">
+
+            <a class="repo-card" href="https://github.com/diegobianchetti/moodle" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                moodle
+              </p>
+              <p class="repo-desc">Imagens Docker otimizadas para Moodle com Alpine PHP e PostgreSQL.</p>
+            </a>
+
+            <a class="repo-card" href="https://github.com/diegobianchetti/dspace" target="_blank" rel="noopener">
+              <span class="ring ring--andamento"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                dspace
+              </p>
+              <p class="repo-desc">Imagens Docker para DSpace 9: backend Java, PostgreSQL, Solr e frontend Angular.</p>
+            </a>
+
+          </div>
+        </div>
+
+        <div class="estacao">
+          <p class="estacao-label"><span class="estacao-num">06</span>Referência</p>
+          <div class="repos-grid">
+
+            <a class="repo-card" href="https://github.com/diegobianchetti/container-migration-notes" target="_blank" rel="noopener">
+              <span class="ring ring--estavel"></span>
+              <p class="repo-name">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+                </svg>
+                container-migration-notes
+              </p>
+              <p class="repo-desc">Guia prático de containerização de sistemas existentes com casos reais.</p>
+            </a>
+
+          </div>
+        </div>
 
       </div>
+
       <div class="legend">
         <span><span class="ring ring--estavel"></span> estável</span>
         <span><span class="ring ring--andamento"></span> em andamento</span>
@@ -531,6 +719,69 @@
     </footer>
 
   </div>
+
+  <!-- Viajante da trilha — progressive enhancement: sem JS, a página é idêntica -->
+  <script>
+    (function () {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var trilha = document.querySelector('.trilha');
+      if (!trilha) return;
+
+      var viajante = document.createElement('div');
+      viajante.className = 'trilha-viajante';
+      viajante.setAttribute('aria-hidden', 'true');
+      viajante.innerHTML =
+        '<svg width="18" height="18" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-linecap="round">'
+        + '<ellipse cx="11" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(-35 11 20)"/>'
+        + '<ellipse cx="41" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(35 41 20)"/>'
+        + '<ellipse cx="11" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(35 11 38)"/>'
+        + '<ellipse cx="41" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(-35 41 38)"/>'
+        + '<circle cx="26" cy="29" r="14" stroke-width="2"/>'
+        + '<path d="M26 15 L26 23.5 M38.1 22 L30.8 26.2 M38.1 36 L30.8 31.8 M26 43 L26 34.5 M13.9 36 L21.2 31.8 M13.9 22 L21.2 26.2" stroke-width="1"/>'
+        + '<path d="M26 23.5 L30.8 26.2 L30.8 31.8 L26 34.5 L21.2 31.8 L21.2 26.2 Z" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>'
+        + '<circle cx="26" cy="11" r="4" stroke-width="2"/>'
+        + '<circle cx="27.3" cy="10" r="0.9" fill="currentColor" stroke="none"/>'
+        + '</svg>';
+      trilha.appendChild(viajante);
+      var tartaruga = viajante.firstChild;
+
+      var ultimoP = 0;
+      var direcao = 1;
+
+      function update() {
+        var r = trilha.getBoundingClientRect();
+        var vh = window.innerHeight || document.documentElement.clientHeight;
+        var start = vh * 0.8;
+        var end = vh * 0.2;
+        var p = (start - r.top) / (r.height + start - end);
+        p = Math.max(0, Math.min(1, p));
+        viajante.style.top = (8 + p * (r.height - 26)) + 'px';
+        viajante.style.opacity = p > 0.01 ? '1' : '0';
+        if (Math.abs(p - ultimoP) > 0.001) {
+          var novaDirecao = p > ultimoP ? 1 : -1;
+          if (novaDirecao !== direcao) {
+            direcao = novaDirecao;
+            tartaruga.style.transform = direcao === 1 ? 'rotate(180deg)' : 'rotate(0deg)';
+          }
+          ultimoP = p;
+        }
+      }
+
+      var ticking = false;
+      function onScroll() {
+        if (ticking) return;
+        ticking = true;
+        window.requestAnimationFrame(function () {
+          update();
+          ticking = false;
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll);
+      update();
+    })();
+  </script>
 
 </body>
 </html>
