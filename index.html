@@ -1,787 +1,1029 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <link rel="icon" type="image/svg+xml" href="favicon.svg">
-  <link rel="shortcut icon" href="favicon.svg">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Diego Bianchetti — DevOps & Platform Engineer</title>
-  <meta name="description" content="Consultor especialista em Docker, Ansible e infraestrutura Linux. 24 anos de experiência.">
-  <style>
-    :root {
-      --verde-claro:     #E1F5EE;
-      --verde-medio:     #9FE1CB;
-      --verde-principal: #1D9E75;
-      --verde-escuro:    #0F6E56;
-      --verde-profundo:  #085041;
-      --fundo:           #f7faf9;
-      --halo:            rgba(29, 158, 117, 0.10);
-      --linha:           rgba(15, 110, 86, 0.35);
-      --glow:            rgba(29, 158, 117, 0.45);
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
+<title>OOGWAY — DevOps &amp; Platform Engineering</title>
+<meta name="description" content="Infraestrutura Linux, containers e automação. Consultoria DevOps & Platform Engineering — mais de duas décadas operando sistemas críticos. Docker, Podman, Kubernetes, Minikube, Ansible.">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-ERD8TZ65C7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-ERD8TZ65C7');
+</script>
+<style>
+/* ════════════════════════════════════════════════════════════
+   OOGWAY — landing v2 · referência visual
+   dark gradient · glow pulsante · trilha navegável em 4 nós
+   ════════════════════════════════════════════════════════════ */
 
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --verde-claro:     #12241e;
-        --verde-medio:     #2c5346;
-        --verde-principal: #3ecb9c;
-        --verde-escuro:    #7fd9bb;
-        --verde-profundo:  #d8f3e9;
-        --fundo:           #0b1512;
-        --halo:            rgba(62, 203, 156, 0.09);
-        --linha:           rgba(127, 217, 187, 0.30);
-        --glow:            rgba(62, 203, 156, 0.45);
-      }
-    }
+:root{
+  --bg-0:#030707;
+  --bg-1:#071511;
+  --bg-2:#0a2018;
+  --g-600:#0f6e56;
+  --g-500:#1d9e75;
+  --g-400:#3ecb9c;
+  --g-300:#7fe6c2;
+  --g-200:#c8f5e2;
+  --tx-1:#eaf7f0;
+  --tx-2:#a9c6b8;
+  --tx-3:#617f72;
+  --line:rgba(127,230,194,.13);
+  --line-2:rgba(127,230,194,.30);
+  --card:rgba(7,20,15,.66);
+  --sans:'Inter',ui-sans-serif,system-ui,sans-serif;
+  --mono:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:92px;color-scheme:dark}
+body{
+  font-family:var(--sans);
+  background:linear-gradient(180deg,var(--bg-0) 0%,#04100b 46%,var(--bg-1) 78%,#081a14 100%);
+  background-attachment:fixed;
+  color:var(--tx-1);
+  min-height:100vh;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:rgba(29,158,117,.38);color:#eafff6}
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:var(--bg-0)}
+::-webkit-scrollbar-thumb{background:rgba(29,158,117,.32);border-radius:8px;border:2px solid var(--bg-0)}
+::-webkit-scrollbar-thumb:hover{background:rgba(62,203,156,.5)}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--g-400);outline-offset:3px;border-radius:4px}
+.wrap{width:min(1140px,calc(100% - 48px));margin-inline:auto}
 
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      background-color: var(--fundo);
-      color: var(--verde-profundo);
-      min-height: 100vh;
-      position: relative;
-      overflow-x: hidden;
-      transition: background-color 0.3s, color 0.3s;
-    }
+/* ── fundo: aurora, grid, ruído, partículas ───────────────── */
+.bg{position:fixed;inset:0;z-index:-3;overflow:hidden;pointer-events:none}
+.blob{position:absolute;border-radius:50%;will-change:transform}
+.blob-a{width:58vw;height:58vw;left:-14vw;top:-22vh;background:radial-gradient(circle at 40% 40%,rgba(29,158,117,.26) 0%,rgba(29,158,117,.08) 42%,transparent 68%);animation:drift-a 34s ease-in-out infinite alternate}
+.blob-b{width:46vw;height:46vw;right:-12vw;top:26vh;background:radial-gradient(circle at 60% 50%,rgba(62,203,156,.17) 0%,rgba(62,203,156,.05) 45%,transparent 70%);animation:drift-b 42s ease-in-out infinite alternate}
+.blob-c{width:64vw;height:64vw;left:16vw;bottom:-38vh;background:radial-gradient(circle at 50% 30%,rgba(10,61,44,.5) 0%,rgba(10,61,44,.16) 45%,transparent 72%);animation:drift-a 50s ease-in-out infinite alternate-reverse}
+.ps{position:absolute;inset:0}
+.ps span{position:absolute;bottom:-6vh;border-radius:50%;background:var(--g-300);box-shadow:0 0 7px rgba(127,230,194,.75);animation:floaty linear infinite}
+.gridlines{position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background-image:
+    linear-gradient(rgba(127,230,194,.045) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(127,230,194,.045) 1px,transparent 1px);
+  background-size:72px 72px;
+  -webkit-mask-image:radial-gradient(ellipse 90% 62% at 50% 12%,black 0%,transparent 78%);
+          mask-image:radial-gradient(ellipse 90% 62% at 50% 12%,black 0%,transparent 78%);
+  animation:grid-pan 16s linear infinite;
+}
+.noise{position:fixed;inset:0;z-index:-1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+}
+#cglow{position:fixed;left:0;top:0;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle,rgba(62,203,156,.09) 0%,rgba(62,203,156,.04) 40%,transparent 68%);
+  transform:translate3d(-600px,-600px,0);
+}
 
-    /* Luz do jardim — glow que nasce no topo e se dissolve */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(ellipse 90% 45% at 50% -8%, var(--halo), transparent);
-      pointer-events: none;
-      z-index: 0;
-    }
+@keyframes drift-a{0%{transform:translate(0,0) scale(1)}50%{transform:translate(6vw,-5vh) scale(1.14)}100%{transform:translate(-4vw,4vh) scale(.94)}}
+@keyframes drift-b{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-7vw,6vh) scale(1.1)}100%{transform:translate(4vw,-6vh) scale(.96)}}
+@keyframes floaty{0%{transform:translateY(0);opacity:0}12%{opacity:var(--o,.3)}85%{opacity:var(--o,.3)}100%{transform:translateY(-112vh);opacity:0}}
+@keyframes grid-pan{to{background-position:0 72px}}
 
-    /* ── Layout principal ── */
-    .page {
-      position: relative;
-      z-index: 1;
-      max-width: 760px;
-      margin: 0 auto;
-      padding: 0 24px 64px;
-    }
+/* ── barra de progresso ────────────────────────────────────── */
+#pbar{position:fixed;top:0;left:0;right:0;height:2px;z-index:60}
+#pbar i{display:block;height:100%;width:100%;transform-origin:0 50%;transform:scaleX(0);
+  background:linear-gradient(90deg,var(--g-600),var(--g-400),var(--g-300));
+}
 
-    /* ── Header ── */
-    header {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      padding: 80px 0 56px;
-      animation: rise 0.6s ease-out both;
-    }
+/* ── nav ───────────────────────────────────────────────────── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:50;height:68px;display:flex;align-items:center;justify-content:space-between;
+  padding:0 clamp(20px,4vw,44px);transition:background .35s,border-color .35s,backdrop-filter .35s;border-bottom:1px solid transparent}
+.nav.scrolled{background:rgba(3,7,7,.72);backdrop-filter:blur(16px);border-bottom-color:var(--line)}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font:800 15px var(--sans);letter-spacing:.26em;color:var(--tx-1)}
+.brand .bt{color:var(--g-400);flex:none}
+.nav-links{display:flex;gap:clamp(16px,2.4vw,30px)}
+.nav-links a{font:600 10.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3);text-decoration:none;transition:color .25s;padding:6px 0}
+.nav-links a:hover{color:var(--g-300)}
+.nav-links a.on{color:var(--g-400)}
+.nav-cta{display:inline-flex;align-items:center;gap:9px;text-decoration:none;font:600 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--g-300);border:1px solid var(--line-2);border-radius:999px;padding:9px 18px;transition:.25s;background:rgba(29,158,117,.06)}
+.nav-cta:hover{background:rgba(29,158,117,.16);border-color:var(--g-400);transform:translateY(-1px)}
+.pulse-dot{width:7px;height:7px;border-radius:50%;background:var(--g-400);box-shadow:0 0 0 0 rgba(62,203,156,.55);animation:pdot 2.2s ease-out infinite;flex:none}
+@keyframes pdot{70%{box-shadow:0 0 0 9px rgba(62,203,156,0)}100%{box-shadow:0 0 0 0 rgba(62,203,156,0)}}
 
-    .logo-turtle {
-      position: relative;
-      width: 104px;
-      height: 104px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 24px;
-      color: var(--verde-principal);
-    }
+/* ── rail lateral (progresso da jornada) ───────────────────── */
+.rail{position:fixed;right:30px;top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:26px}
+.rail-line{position:absolute;right:4px;top:6px;bottom:6px;width:1px;background:var(--line)}
+.rail-fill{position:absolute;right:4px;top:6px;width:1px;height:0;
+  background:linear-gradient(180deg,var(--g-300),var(--g-500));box-shadow:0 0 10px rgba(62,203,156,.55);transition:height .45s ease,top .45s ease}
+.ri{display:flex;align-items:center;justify-content:flex-end;gap:12px;text-decoration:none}
+.rlb{font:600 10px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--tx-3);opacity:0;transform:translateX(8px);transition:.3s}
+.ri:hover .rlb,.ri.on .rlb{opacity:1;transform:none}
+.ri.on .rlb{color:var(--g-300)}
+.rdot{width:9px;height:9px;border-radius:50%;border:1.5px solid var(--tx-3);background:var(--bg-0);transition:.3s;flex:none}
+.ri.on .rdot{background:var(--g-400);border-color:var(--g-400);box-shadow:0 0 12px rgba(62,203,156,.8)}
 
-    .logo-turtle::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--halo) 0%, transparent 68%);
-      animation: halo-breathe 7s ease-in-out infinite;
-    }
+/* ── reveal on scroll ──────────────────────────────────────── */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s cubic-bezier(.16,1,.3,1);transition-delay:var(--d,0s)}
+.reveal.on{opacity:1;transform:none}
 
-    .logo-turtle svg {
-      position: relative;
-      animation: float 7s ease-in-out infinite;
-    }
+/* ── hero ──────────────────────────────────────────────────── */
+main{position:relative;z-index:1}
+.hero{position:relative;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  padding:150px 24px 56px;overflow:hidden}
+.hero-glow{position:absolute;left:50%;top:42%;width:min(128vmin,1080px);aspect-ratio:1;transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(circle,rgba(29,158,117,.24) 0%,rgba(29,158,117,.10) 36%,transparent 62%);
+  animation:breathe 7s ease-in-out infinite alternate}
+.hero-ring{position:absolute;left:50%;top:42%;border:1px solid rgba(127,230,194,.15);border-radius:50%;pointer-events:none;transform:translate(-50%,-50%)}
+.hero-ring::after{content:'';position:absolute;top:-3px;left:50%;width:6px;height:6px;border-radius:50%;background:var(--g-300);box-shadow:0 0 12px rgba(127,230,194,.85)}
+.hr-1{width:min(46vmin,430px);height:min(46vmin,430px);animation:ring-spin 44s linear infinite}
+.hr-2{width:min(68vmin,640px);height:min(68vmin,640px);border-color:rgba(127,230,194,.08);animation:ring-spin 70s linear infinite reverse}
+.hero-inner{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;will-change:transform}
+.eyebrow{display:flex;align-items:center;gap:2px;font:500 12px/1 var(--mono);letter-spacing:.2em;color:var(--g-400);margin-bottom:26px}
+.caret{display:inline-block;width:8px;height:14px;background:var(--g-400);margin-left:8px;animation:blink 1.1s steps(1) infinite}
+.brand-big{font-size:clamp(4.2rem,15.5vw,12.5rem);line-height:.94;font-weight:800;letter-spacing:-.045em;
+  background:linear-gradient(100deg,#eafff6 8%,#7fe6c2 28%,#3ecb9c 44%,#eafff6 60%,#9beed4 78%,#eafff6 96%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shimmer 9s linear infinite;filter:drop-shadow(0 0 46px rgba(29,158,117,.34))}
+.tagline{max-width:680px;margin-top:28px;font-size:clamp(1.05rem,2.1vw,1.4rem);line-height:1.62;color:var(--tx-2);font-weight:400}
+.tagline strong{color:var(--tx-1);font-weight:600}
+.hero-stack{margin-top:24px;font:500 11.5px var(--mono);letter-spacing:.16em;color:var(--tx-3)}
+.hero-stack b{color:var(--g-400);font-weight:500}
+.hero-ctas{margin-top:40px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:15px 30px;font:600 15px var(--sans);letter-spacing:.01em;text-decoration:none;transition:.25s;cursor:pointer;border:1px solid transparent}
+.btn-primary{position:relative;overflow:hidden;background:linear-gradient(135deg,#1d9e75,#0f6e56);color:#eafff6;
+  box-shadow:0 10px 34px rgba(29,158,117,.35),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-primary::after{content:'';position:absolute;inset:0;background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-130%);transition:transform .65s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 46px rgba(29,158,117,.5),inset 0 1px 0 rgba(255,255,255,.18)}
+.btn-primary:hover::after{transform:translateX(130%)}
+.btn-ghost{border-color:var(--line-2);color:var(--g-300);background:rgba(29,158,117,.05)}
+.btn-ghost:hover{background:rgba(29,158,117,.13);border-color:var(--g-400);transform:translateY(-2px)}
+.hero-term{margin-top:58px;width:min(640px,100%);text-align:left}
+.hint{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:9px;font:600 10px var(--mono);letter-spacing:.32em;text-transform:uppercase;color:var(--tx-3)}
+.hint svg{animation:hint-y 2.2s ease-in-out infinite}
 
-    .name {
-      font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
-      font-size: 42px;
-      font-weight: 500;
-      color: var(--verde-profundo);
-      letter-spacing: -0.02em;
-      margin-bottom: 10px;
-    }
+@keyframes breathe{from{transform:translate(-50%,-50%) scale(1);opacity:.72}to{transform:translate(-50%,-50%) scale(1.1);opacity:1}}
+@keyframes ring-spin{from{transform:translate(-50%,-50%) rotate(0)}to{transform:translate(-50%,-50%) rotate(360deg)}}
+@keyframes shimmer{to{background-position:220% center}}
+@keyframes blink{0%,49%{opacity:1}50%,100%{opacity:0}}
+@keyframes hint-y{0%,100%{transform:translateY(0)}50%{transform:translateY(7px)}}
 
-    .role {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12px;
-      color: var(--verde-principal);
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      font-weight: 500;
-      margin-bottom: 26px;
-    }
+/* ── terminal (hero + nó 01) ───────────────────────────────── */
+.term{border:1px solid var(--line);border-radius:16px;overflow:hidden;text-align:left;
+  background:linear-gradient(180deg,rgba(8,22,17,.85),rgba(5,14,11,.88));
+  backdrop-filter:blur(14px);box-shadow:0 26px 80px rgba(0,0,0,.45),0 0 0 1px rgba(127,230,194,.04)}
+.term-head{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);background:rgba(127,230,194,.03)}
+.tdots{display:flex;gap:6px}
+.tdots i{width:9px;height:9px;border-radius:50%}
+.tdots i:nth-child(1){background:rgba(29,158,117,.85)}
+.tdots i:nth-child(2){background:rgba(62,203,156,.55)}
+.tdots i:nth-child(3){background:rgba(127,230,194,.3)}
+.term-title{font:500 11px var(--mono);color:var(--tx-3);letter-spacing:.06em}
+.term-live{margin-left:auto;display:flex;align-items:center;gap:7px;font:600 9.5px var(--mono);letter-spacing:.14em;color:var(--g-400);text-transform:uppercase}
+.term-body{padding:16px 18px 20px;font:400 12.5px/1.75 var(--mono);color:var(--tx-3);min-height:230px}
+.hero .term-body{min-height:236px}
+.tl{color:var(--tx-1);white-space:pre-wrap;word-break:break-word}
+.tp{color:var(--g-400);font-weight:700}
+.to{color:var(--tx-3);white-space:pre-wrap;word-break:break-word}
+.to .k{color:var(--g-300)}
+.cur{display:inline-block;width:7px;height:14px;background:var(--g-400);vertical-align:-2px;margin-left:3px;animation:blink 1.1s steps(1) infinite}
 
-    .thesis {
-      font-family: Georgia, "Iowan Old Style", serif;
-      font-style: italic;
-      font-size: 17px;
-      color: var(--verde-escuro);
-      line-height: 1.65;
-      white-space: nowrap;
-    }
+/* ── seções ────────────────────────────────────────────────── */
+.sect{padding:118px 0;position:relative}
+.kick{display:flex;align-items:center;gap:14px;font:700 11px var(--mono);letter-spacing:.26em;text-transform:uppercase;color:var(--g-400)}
+.kick::before{content:'';width:36px;height:1px;background:linear-gradient(90deg,var(--g-400),transparent)}
+.h2{margin-top:18px;font-size:clamp(1.9rem,4.4vw,3.1rem);font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.lede{margin-top:20px;max-width:780px;color:var(--tx-2);font-size:16.5px;line-height:1.7}
 
-    /* ── Divisor ── */
-    .divider {
-      width: 32px;
-      height: 2px;
-      background: var(--verde-medio);
-      border-radius: 2px;
-      margin: 44px auto 36px;
-    }
+/* ── trajetória (experiência qualitativa) ──────────────────── */
+.eras{display:grid;grid-template-columns:repeat(5,1fr);gap:22px;position:relative;margin-top:70px}
+.eras::before{content:'';position:absolute;top:5px;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(127,230,194,.32) 10%,rgba(127,230,194,.32) 90%,transparent)}
+.era{position:relative;padding-top:30px}
+.era::before{content:'';position:absolute;top:0;left:0;width:11px;height:11px;border-radius:50%;
+  background:var(--bg-0);border:2px solid var(--g-400);box-shadow:0 0 12px rgba(62,203,156,.55)}
+.era-i{font:700 10.5px var(--mono);letter-spacing:.18em;color:var(--g-400)}
+.era-t{margin:8px 0 7px;font-size:15px;font-weight:600;color:var(--tx-1)}
+.era-d{font-size:13px;line-height:1.6;color:var(--tx-3)}
+.eras-close{margin-top:46px;font:500 12px var(--mono);letter-spacing:.1em;color:var(--tx-3)}
+.eras-close b{color:var(--g-400);font-weight:500}
 
-    /* ── Seções ── */
-    section {
-      margin-bottom: 64px;
-    }
+/* ── mapa da trilha (grafo SVG) ────────────────────────────── */
+.map-wrap{position:relative;margin-top:64px;border:1px solid var(--line);border-radius:22px;padding:38px 28px 26px;
+  background:radial-gradient(120% 140% at 50% 0%,rgba(29,158,117,.09),transparent 55%),rgba(6,17,13,.55);
+  backdrop-filter:blur(10px)}
+.map-live{position:absolute;top:16px;right:22px;display:flex;align-items:center;gap:8px;font:700 9.5px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--g-400)}
+.map-scroll{overflow-x:auto}
+.map{display:block;width:100%;min-width:720px;height:auto}
+.map-base{fill:none;stroke:rgba(127,230,194,.32);stroke-width:2.5}
+.map-flow{fill:none;stroke:var(--g-400);stroke-width:2.5;stroke-opacity:.9;stroke-linecap:round;stroke-dasharray:3 16;animation:dashflow 1.5s linear infinite}
+.traveler{pointer-events:none}
+.nring{fill:#081812;stroke:rgba(127,230,194,.62);stroke-width:1.8;transition:stroke .3s,stroke-width .3s}
+.gnum{font:700 14px var(--mono);fill:var(--g-300);letter-spacing:.1em;transition:fill .3s}
+.gname{font:600 17px var(--sans);fill:var(--tx-1);transition:fill .3s}
+.gsub{font:500 10px var(--mono);fill:#8fb3a2;letter-spacing:.22em;text-transform:uppercase}
+.gnode{cursor:pointer;transition:filter .3s}
+.gnode:hover,.gnode:focus-visible{filter:drop-shadow(0 0 14px rgba(62,203,156,.5))}
+.gnode:hover .nring,.gnode:focus-visible .nring{stroke:var(--g-300);stroke-width:2}
+.gnode:hover .gname{fill:var(--g-200)}
+.nend{fill:none;stroke:rgba(62,203,156,.55);stroke-width:1.2;transform-box:fill-box;transform-origin:center;animation:endpulse 2.6s ease-out infinite}
+.map-cap{margin-top:16px;text-align:center;font:500 11.5px var(--mono);letter-spacing:.12em;color:var(--tx-3)}
+.map-cap b{color:var(--g-400);font-weight:500}
+@keyframes dashflow{to{stroke-dashoffset:-19}}
+@keyframes endpulse{0%{transform:scale(1);opacity:.85}100%{transform:scale(1.75);opacity:0}}
 
-    .section-title {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 11px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      color: var(--verde-medio);
-      margin-bottom: 24px;
-    }
+/* ── estações (nós da trilha) ──────────────────────────────── */
+.station{position:relative;padding:112px 0}
+.wm{position:absolute;top:54px;right:2%;z-index:0;pointer-events:none;user-select:none;
+  font:800 clamp(88px,12vw,150px)/1 var(--mono);letter-spacing:-.04em;
+  color:rgba(127,230,194,.05);-webkit-text-stroke:1px rgba(127,230,194,.16)}
+.station.flip .wm{right:auto;left:2%}
+.st-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:clamp(36px,5vw,72px);align-items:center}
+.station.flip .st-copy{order:2}
+.st-kick{display:flex;align-items:center;gap:12px;font:700 10.5px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--g-400)}
+.st-kick::before{content:'';width:26px;height:1px;background:var(--g-400);opacity:.7}
+.st-title{margin-top:16px;font-size:clamp(1.6rem,3.1vw,2.35rem);font-weight:800;letter-spacing:-.02em;line-height:1.12}
+.st-sub{margin-top:10px;font:500 12px var(--mono);letter-spacing:.14em;color:var(--tx-3)}
+.st-desc{margin-top:18px;max-width:54ch;font-size:15.5px;line-height:1.72;color:var(--tx-2)}
+.chips{margin-top:26px;display:flex;flex-wrap:wrap;gap:9px}
+.chip{font:500 11px var(--mono);letter-spacing:.08em;padding:7px 13px;border:1px solid var(--line);border-radius:999px;color:var(--tx-2);background:rgba(127,230,194,.04);transition:.25s}
+.chip:hover{border-color:var(--line-2);color:var(--g-300);transform:translateY(-1px)}
+.st-links{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px 18px}
+.st-links a{font:600 11.5px var(--mono);letter-spacing:.04em;color:var(--g-400);text-decoration:none;border-bottom:1px dotted rgba(62,203,156,.4);padding-bottom:2px;transition:.25s}
+.st-links a:hover{color:var(--g-200);border-bottom-color:var(--g-200)}
 
-    /* ── Stack técnica ── */
-    .stack-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+/* ── nó 02 · runtimes ──────────────────────────────────────── */
+.rt-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.rt-card{display:flex;flex-direction:column;gap:7px;text-align:left;padding:19px 20px;border:1px solid var(--line);border-radius:14px;
+  background:rgba(10,26,20,.5);cursor:pointer;transition:.28s;font-family:var(--mono)}
+.rt-card:hover{transform:translateY(-3px);border-color:var(--line-2);background:rgba(29,158,117,.09)}
+.rt-card.on{border-color:var(--g-400);background:linear-gradient(160deg,rgba(29,158,117,.17),rgba(29,158,117,.04));box-shadow:0 0 32px rgba(29,158,117,.2)}
+.rt-name{display:flex;align-items:center;justify-content:space-between;font:700 15px var(--mono);color:var(--tx-1)}
+.rt-name svg{opacity:0;transform:translateX(-4px);transition:.25s;color:var(--g-300)}
+.rt-card:hover .rt-name svg,.rt-card.on .rt-name svg{opacity:1;transform:none}
+.rt-tag{font:500 10px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3)}
+.rt-card.on .rt-tag{color:var(--g-400)}
+.rt-panel{margin-top:14px;border:1px solid var(--line);border-radius:14px;padding:22px 24px;background:rgba(6,17,13,.62);
+  transition:opacity .22s ease,transform .22s ease}
+.rt-panel.fade{opacity:0;transform:translateY(6px)}
+.rt-ph{font:700 13px var(--mono);letter-spacing:.08em;color:var(--g-300)}
+.rt-pd{margin-top:10px;font-size:14.5px;line-height:1.66;color:var(--tx-2)}
+.rt-cmd{margin:16px 0;padding:13px 15px;border:1px solid var(--line);border-radius:10px;background:rgba(3,10,8,.82);
+  font:500 12.5px/1.6 var(--mono);color:var(--g-200);overflow-x:auto;white-space:pre}
+.rt-pts{list-style:none;display:grid;gap:8px}
+.rt-pts li{position:relative;padding-left:20px;font-size:13.5px;color:var(--tx-2)}
+.rt-pts li::before{content:'▸';position:absolute;left:0;color:var(--g-400)}
 
-    .stack-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 7px 14px;
-      border: 0.5px solid var(--verde-medio);
-      border-radius: 6px;
-      font-size: 13px;
-      color: var(--verde-escuro);
-      background: transparent;
-      transition: background 0.15s, border-color 0.15s;
-    }
+/* ── nó 03 · automação ─────────────────────────────────────── */
+.play{margin:0;padding:20px 22px;border:1px solid var(--line);border-radius:14px;background:rgba(3,10,8,.82);
+  font:400 12.5px/1.85 var(--mono);color:var(--tx-2);overflow-x:auto}
+.play .c{color:var(--tx-3);font-style:italic}
+.play .k{color:var(--g-300)}
+.play .v{color:var(--g-200)}
+.au-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.au-card{padding:16px 17px;border:1px solid var(--line);border-radius:13px;background:rgba(10,26,20,.5);transition:.28s}
+.au-card:hover{transform:translateY(-3px);border-color:var(--line-2);background:rgba(29,158,117,.09)}
+.au-tag{font:700 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--g-400)}
+.au-card p{margin-top:8px;font-size:13px;line-height:1.55;color:var(--tx-3)}
 
-    .stack-badge:hover {
-      background: var(--verde-claro);
-      border-color: var(--verde-principal);
-    }
+/* ── nó 04 · alocação & conversão ──────────────────────────── */
+.st-full .st-head{max-width:720px}
+.alloc-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:52px;position:relative;z-index:1}
+.mode{position:relative;overflow:hidden;padding:30px 30px 26px;border:1px solid var(--line);border-radius:18px;background:var(--card);transition:.3s}
+.mode::before{content:'';position:absolute;top:-60px;right:-40px;width:220px;height:220px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle,rgba(29,158,117,.16),transparent 65%)}
+.mode:hover{transform:translateY(-4px);border-color:rgba(62,203,156,.45);box-shadow:0 18px 50px rgba(0,0,0,.35)}
+.mode-tag{font:700 10px var(--mono);letter-spacing:.22em;text-transform:uppercase;color:var(--g-400)}
+.mode h4{margin-top:12px;font-size:21px;font-weight:700;letter-spacing:-.01em}
+.mode ul{list-style:none;margin-top:16px;display:grid;gap:9px}
+.mode li{position:relative;padding-left:20px;font-size:14px;line-height:1.55;color:var(--tx-2)}
+.mode li::before{content:'▸';position:absolute;left:0;color:var(--g-400)}
+.fit{margin-top:18px;font:500 11px var(--mono);letter-spacing:.06em;color:var(--tx-3)}
+.cta-banner{position:relative;overflow:hidden;margin-top:22px;border:1px solid rgba(62,203,156,.32);border-radius:24px;
+  padding:64px 32px;text-align:center;z-index:1;
+  background:radial-gradient(95% 130% at 50% 0%,rgba(29,158,117,.17),rgba(6,17,13,.6) 62%)}
+.cta-banner::before{content:'';position:absolute;left:50%;top:-32%;width:560px;height:560px;transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(circle,rgba(29,158,117,.18) 0%,transparent 60%);animation:breathe-soft 6s ease-in-out infinite alternate}
+.cta-banner h3{position:relative;font-size:clamp(1.55rem,3.2vw,2.2rem);font-weight:800;letter-spacing:-.02em}
+.cta-banner>p{position:relative;margin-top:14px;color:var(--tx-2);font-size:15.5px;line-height:1.65}
+.cta-row{position:relative;margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.torre{position:relative;display:inline-block;margin-top:18px;font:600 12px var(--mono);letter-spacing:.06em;color:var(--tx-3);text-decoration:none;border-bottom:1px dotted rgba(127,230,194,.35);padding-bottom:2px;transition:.25s}
+.torre:hover{color:var(--g-300);border-color:var(--g-300)}
+.mono-note{position:relative;margin-top:22px;font:500 10.5px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--tx-3)}
+@keyframes breathe-soft{from{transform:translateX(-50%) scale(1);opacity:.7}to{transform:translateX(-50%) scale(1.14);opacity:1}}
 
-    .stack-badge svg {
-      flex-shrink: 0;
-      opacity: 0.85;
-    }
+/* ── footer ────────────────────────────────────────────────── */
+.foot{border-top:1px solid var(--line);padding:44px 0 54px}
+.foot-grid{display:flex;justify-content:space-between;gap:28px;flex-wrap:wrap;align-items:flex-start}
+.foot-brand{display:flex;align-items:center;gap:9px;font:800 13px var(--sans);letter-spacing:.3em;color:var(--g-300)}
+.foot-brand .bt{color:var(--g-400)}
+.foot-sub{margin-top:10px;font:500 10.5px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--tx-3)}
+.foot-right{text-align:right}
+.foot-credit{font-size:12.5px;color:var(--tx-3)}
+.foot-links{margin-top:10px;display:flex;gap:16px;justify-content:flex-end}
+.foot-links a{font:600 11px var(--mono);letter-spacing:.08em;color:var(--g-400);text-decoration:none;transition:.25s}
+.foot-links a:hover{color:var(--g-200)}
+.foot-note{margin-top:34px;text-align:center;font:500 10px var(--mono);letter-spacing:.14em;color:rgba(97,127,114,.75)}
 
-    /* ── A trilha ── */
-    .trilha {
-      position: relative;
-      padding-left: 28px;
-    }
+/* ── responsivo ────────────────────────────────────────────── */
+@media (max-width:1140px){.rail{display:none}}
+@media (max-width:900px){
+  .nav-links{display:none}
+  .st-grid{grid-template-columns:1fr;gap:38px}
+  .station.flip .st-copy{order:0}
+  .eras{grid-template-columns:1fr;gap:30px;padding-left:0}
+  .eras::before{top:6px;bottom:6px;left:5px;right:auto;width:1px;height:auto}
+  .era{padding-top:0;padding-left:30px}
+  .era::before{left:0;top:5px}
+  .alloc-grid{grid-template-columns:1fr}
+  .au-grid{grid-template-columns:1fr}
+  .wm{font-size:76px;top:26px}
+  .term-body{font-size:11.5px;min-height:210px}
+  .hero .term-body{min-height:215px}
+  .foot-right{text-align:left}
+  .foot-links{justify-content:flex-start}
+}
+@media (max-width:640px){
+  .rt-grid{grid-template-columns:1fr}
+  .hero{padding-top:120px}
+  .btn{padding:14px 24px;font-size:14px}
+}
 
-    .trilha::before {
-      content: '';
-      position: absolute;
-      left: 6px;
-      top: 8px;
-      bottom: 8px;
-      width: 2px;
-      border-radius: 2px;
-      background: var(--linha);
-      transform-origin: top;
-      animation: grow-line 1.1s ease-out 0.05s both;
-    }
-
-    /* Viajante da trilha — mini-tartaruga que percorre a linha com o scroll (via JS) */
-    .trilha-viajante {
-      position: absolute;
-      left: -2px;
-      top: 8px;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: var(--fundo);
-      color: var(--verde-principal);
-      opacity: 0;
-      transition: opacity 0.4s;
-      pointer-events: none;
-      z-index: 2;
-    }
-
-    .trilha-viajante svg {
-      display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .estacao {
-      position: relative;
-      margin-bottom: 36px;
-      animation: rise 0.55s ease-out both;
-    }
-    .estacao:last-of-type { margin-bottom: 0; }
-    .estacao:nth-of-type(1) { animation-delay: 0.10s; }
-    .estacao:nth-of-type(2) { animation-delay: 0.18s; }
-    .estacao:nth-of-type(3) { animation-delay: 0.26s; }
-    .estacao:nth-of-type(4) { animation-delay: 0.34s; }
-    .estacao:nth-of-type(5) { animation-delay: 0.42s; }
-    .estacao:nth-of-type(6) { animation-delay: 0.50s; }
-
-    /* Nó da estação — centro alinhado à linha da trilha */
-    .estacao::before {
-      content: '';
-      position: absolute;
-      left: -26px;
-      top: 3px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--verde-principal);
-      box-shadow: 0 0 0 3px var(--fundo);
-    }
-
-    .estacao-label {
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      font-size: 12px;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--verde-escuro);
-      margin-bottom: 14px;
-    }
-
-    .estacao-num {
-      color: var(--verde-principal);
-      margin-right: 10px;
-    }
-
-    /* ── Cards de repositório ── */
-    .repos-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 12px;
-    }
-
-    .repo-card {
-      display: block;
-      padding: 18px 20px;
-      border: 0.5px solid var(--verde-medio);
-      border-radius: 8px;
-      text-decoration: none;
-      color: inherit;
-      background: transparent;
-      transition: background 0.15s, border-color 0.15s, transform 0.15s;
-    }
-
-    .repo-card:hover {
-      background: var(--verde-claro);
-      border-color: var(--verde-principal);
-      transform: translateY(-1px);
-    }
-
-    .repo-card:focus-visible,
-    .btn-primary:focus-visible {
-      outline: 2px solid var(--verde-principal);
-      outline-offset: 2px;
-    }
-
-    .repo-card--wide {
-      grid-column: 1 / -1;
-    }
-
-    .repo-name {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--verde-profundo);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-    }
-
-    .repo-name svg {
-      flex-shrink: 0;
-      opacity: 0.6;
-    }
-
-    .repo-desc {
-      font-size: 12px;
-      color: var(--verde-escuro);
-      line-height: 1.55;
-      padding-right: 20px;
-    }
-
-    /* Anel de maturidade — espelha o status rastreado pelo oogway-status */
-    .ring {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .repo-card { position: relative; }
-    .ring--estavel { border: 1.5px solid var(--verde-principal); }
-    .ring--andamento { border: 1.5px dashed var(--verde-escuro); opacity: 0.85; }
-
-    .legend {
-      display: flex;
-      gap: 20px;
-      margin-top: 20px;
-      padding-left: 28px;
-      font-size: 11px;
-      color: var(--verde-escuro);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    }
-    .legend span { display: inline-flex; align-items: center; gap: 6px; }
-    .legend .ring { position: static; }
-
-    /* ── Contato ── */
-    .contact-area {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-
-    .contact-desc {
-      font-size: 13px;
-      color: var(--verde-escuro);
-      line-height: 1.6;
-      max-width: 440px;
-    }
-
-    .btn-primary {
-      display: inline-block;
-      padding: 10px 24px;
-      background: var(--verde-principal);
-      color: var(--fundo);
-      border-radius: 6px;
-      text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      transition: background 0.15s;
-    }
-
-    .btn-primary:hover {
-      background: var(--verde-escuro);
-    }
-
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 24px 0;
-      border-top: 0.5px solid var(--verde-medio);
-      font-size: 11px;
-      color: var(--verde-escuro);
-      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-      letter-spacing: 0.05em;
-    }
-
-    footer a {
-      color: var(--verde-escuro);
-      text-decoration: none;
-    }
-
-    footer a:hover {
-      color: var(--verde-principal);
-    }
-
-    /* ── Animações ── */
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: none; }
-    }
-
-    @keyframes grow-line {
-      from { transform: scaleY(0); }
-      to   { transform: scaleY(1); }
-    }
-
-    @keyframes halo-breathe {
-      0%, 100% { transform: scale(1);    opacity: 0.75; }
-      50%      { transform: scale(1.12); opacity: 1; }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50%      { transform: translateY(-3px); }
-    }
-
-    /* ── Responsivo ── */
-    @media (max-width: 480px) {
-      header { padding: 56px 0 44px; }
-      .name { font-size: 30px; }
-      .thesis { font-size: 15px; white-space: normal; max-width: 320px; }
-      .trilha { padding-left: 22px; }
-      .trilha::before { left: 5px; }
-      .trilha-viajante { left: -3px; }
-      .estacao::before { left: -21px; }
-      .legend { padding-left: 22px; }
-      .repos-grid { grid-template-columns: 1fr; }
-    }
-
-    /* ── Movimento reduzido ── */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
-  </style>
-
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ERD8TZ65C7"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-ERD8TZ65C7');
-  </script>
+/* ── movimento reduzido ────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none}
+}
+</style>
 </head>
 <body>
 
-  <div class="page">
+<!-- fundo -->
+<div class="bg" aria-hidden="true">
+  <div class="blob blob-a"></div>
+  <div class="blob blob-b"></div>
+  <div class="blob blob-c"></div>
+  <div class="ps" id="ps"></div>
+</div>
+<div class="gridlines" aria-hidden="true"></div>
+<div class="noise" aria-hidden="true"></div>
+<div id="cglow" aria-hidden="true"></div>
 
-    <!-- Header -->
-    <header>
-      <div class="logo-turtle">
-        <svg width="88" height="88" viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" aria-label="Oogway" fill="none" stroke="currentColor" stroke-linecap="round">
-          <ellipse cx="11" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(-35 11 20)"/>
-          <ellipse cx="41" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(35 41 20)"/>
-          <ellipse cx="11" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(35 11 38)"/>
-          <ellipse cx="41" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(-35 41 38)"/>
-          <circle cx="26" cy="29" r="14" stroke-width="2"/>
-          <path d="M26 15 L26 23.5 M38.1 22 L30.8 26.2 M38.1 36 L30.8 31.8 M26 43 L26 34.5 M13.9 36 L21.2 31.8 M13.9 22 L21.2 26.2" stroke-width="1"/>
-          <path d="M26 23.5 L30.8 26.2 L30.8 31.8 L26 34.5 L21.2 31.8 L21.2 26.2 Z" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>
-          <circle cx="26" cy="11" r="4" stroke-width="2"/>
-          <circle cx="27.3" cy="10" r="0.9" fill="currentColor" stroke="none"/>
-        </svg>
-      </div>
-      <p class="name">Diego Bianchetti</p>
-      <p class="role">DevOps &amp; Platform Engineer</p>
-      <p class="thesis">Cada sistema, uma trilha documentada — infraestrutura que se explica sozinha.</p>
-    </header>
+<!-- progresso -->
+<div id="pbar" aria-hidden="true"><i></i></div>
 
-    <!-- Stack técnica -->
-    <section>
-      <div class="divider"></div>
-      <p class="section-title">Stack técnica</p>
-      <div class="stack-grid">
+<!-- nav -->
+<header class="nav" id="nav">
+  <a class="brand" href="#inicio" aria-label="OOGWAY — voltar ao início">
+    <svg class="bt" viewBox="0 0 46 28" width="21" height="13" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+      <ellipse cx="19" cy="14" rx="11" ry="8"/>
+      <circle cx="36" cy="12.5" r="3.6"/>
+      <circle cx="37.2" cy="11.6" r=".7" fill="currentColor" stroke="none"/>
+      <path d="M9 9 L4 6.5"/><path d="M9 19 L4 21.5"/>
+      <path d="M26 18.5 L30.5 22"/><path d="M8 14 L3 14"/>
+    </svg>
+    OOGWAY
+  </a>
+  <nav class="nav-links" aria-label="Nós da trilha">
+    <a href="#infra">01 Infra</a>
+    <a href="#containers">02 Containers</a>
+    <a href="#automacao">03 Automação</a>
+    <a href="#alocacao">04 Alocação</a>
+  </nav>
+  <a class="nav-cta" href="#alocacao"><span class="pulse-dot"></span>agenda aberta</a>
+</header>
 
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <rect x="2" y="2" width="20" height="20" rx="3"/>
-            <path d="M7 12h10M12 7v10"/>
-          </svg>
-          Docker
-        </span>
+<!-- rail lateral -->
+<aside class="rail" aria-label="Progresso da jornada">
+  <span class="rail-line" aria-hidden="true"></span>
+  <span class="rail-fill" aria-hidden="true"></span>
+  <a class="ri" href="#inicio"><span class="rlb">início</span><span class="rdot"></span></a>
+  <a class="ri" href="#infra"><span class="rlb">01 infra</span><span class="rdot"></span></a>
+  <a class="ri" href="#containers"><span class="rlb">02 containers</span><span class="rdot"></span></a>
+  <a class="ri" href="#automacao"><span class="rlb">03 automação</span><span class="rdot"></span></a>
+  <a class="ri" href="#alocacao"><span class="rlb">04 alocação</span><span class="rdot"></span></a>
+</aside>
 
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <circle cx="12" cy="12" r="9"/>
-            <path d="M12 3v18M3 12h18"/>
-          </svg>
-          Podman
-        </span>
+<main>
 
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <path d="M5 3l14 9-14 9V3z"/>
-          </svg>
-          Ansible
-        </span>
+  <!-- ═══ HERO ═══ -->
+  <section class="hero" id="inicio">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-ring hr-1" aria-hidden="true"></div>
+    <div class="hero-ring hr-2" aria-hidden="true"></div>
 
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <path d="M3 12h18M3 6h18M3 18h12"/>
-          </svg>
-          Nginx
-        </span>
-
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>
-          </svg>
-          Bash
-        </span>
-
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <circle cx="12" cy="12" r="3"/>
-            <path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
-          </svg>
-          GitHub Actions
-        </span>
-
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
-          </svg>
-          Kubernetes
-        </span>
-
-        <span class="stack-badge">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="1.8">
-            <rect x="3" y="11" width="18" height="11" rx="2"/>
-            <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-          Linux
-        </span>
-
-      </div>
-    </section>
-
-    <!-- Repositórios — a trilha -->
-    <section>
-      <div class="divider"></div>
-      <p class="section-title">Repositórios em destaque</p>
-
-      <div class="trilha">
-
-        <div class="estacao">
-          <p class="estacao-label"><span class="estacao-num">01</span>Fundação</p>
-          <div class="repos-grid">
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/ansible-docker-setup" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                ansible-docker-setup
-              </p>
-              <p class="repo-desc">Playbook Ansible para instalação e padronização de hosts Docker em produção.</p>
-            </a>
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/nginx-container-hardening" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                nginx-container-hardening
-              </p>
-              <p class="repo-desc">Nginx como container com hardening de segurança — pronto para uso independente.</p>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="estacao">
-          <p class="estacao-label"><span class="estacao-num">02</span>Ambiente de testes</p>
-          <div class="repos-grid">
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/vagrant-libvirt-lab" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                vagrant-libvirt-lab
-              </p>
-              <p class="repo-desc">Lab descartável KVM/libvirt com Vagrant para testes de infraestrutura.</p>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="estacao">
-          <p class="estacao-label"><span class="estacao-num">03</span>Base operacional</p>
-          <div class="repos-grid">
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/docker-compose-templates" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                docker-compose-templates
-              </p>
-              <p class="repo-desc">Templates comentados de ambientes multi-serviço prontos para uso.</p>
-            </a>
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/nginx-proxy" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                nginx-proxy
-              </p>
-              <p class="repo-desc">Proxy reverso containerizado — usado pelo cctl, funciona standalone.</p>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="estacao">
-          <p class="estacao-label"><span class="estacao-num">04</span>Orquestrador</p>
-          <div class="repos-grid">
-
-            <a class="repo-card repo-card--wide" href="https://github.com/diegobianchetti/cctl" target="_blank" rel="noopener">
-              <span class="ring ring--andamento"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                cctl
-              </p>
-              <p class="repo-desc">CLI que provisiona, instala e gerencia as stacks desta página.</p>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="estacao">
-          <p class="estacao-label"><span class="estacao-num">05</span>Instaladas via cctl</p>
-          <div class="repos-grid">
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/moodle" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                moodle
-              </p>
-              <p class="repo-desc">Imagens Docker otimizadas para Moodle com Alpine PHP e PostgreSQL.</p>
-            </a>
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/dspace" target="_blank" rel="noopener">
-              <span class="ring ring--andamento"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                dspace
-              </p>
-              <p class="repo-desc">Imagens Docker para DSpace 9: backend Java, PostgreSQL, Solr e frontend Angular.</p>
-            </a>
-
-          </div>
-        </div>
-
-        <div class="estacao">
-          <p class="estacao-label"><span class="estacao-num">06</span>Referência</p>
-          <div class="repos-grid">
-
-            <a class="repo-card" href="https://github.com/diegobianchetti/container-migration-notes" target="_blank" rel="noopener">
-              <span class="ring ring--estavel"></span>
-              <p class="repo-name">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#1D9E75" stroke-width="2">
-                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
-                </svg>
-                container-migration-notes
-              </p>
-              <p class="repo-desc">Guia prático de containerização de sistemas existentes com casos reais.</p>
-            </a>
-
-          </div>
-        </div>
-
+    <div class="hero-inner">
+      <p class="eyebrow">~/oogway — devops &amp; platform engineering<span class="caret" aria-hidden="true"></span></p>
+      <h1 class="brand-big">OOGWAY</h1>
+      <p class="tagline">Infraestrutura Linux, containers e automação. <strong>Do kernel ao cluster</strong> — sistemas que nascem para ficar de pé.</p>
+      <p class="hero-stack"><b>linux</b> · <b>ansible</b> · <b>docker</b> · <b>podman</b> · <b>kubernetes</b> · <b>minikube</b></p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#trajetoria">Percorrer a trilha</a>
+        <a class="btn btn-ghost" href="#alocacao">Ir direto ao contato</a>
       </div>
 
-      <div class="legend">
-        <span><span class="ring ring--estavel"></span> estável</span>
-        <span><span class="ring ring--andamento"></span> em andamento</span>
+      <div class="hero-term">
+        <div class="term" aria-label="Console demonstrativo">
+          <div class="term-head">
+            <span class="tdots" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="term-title">oogway@lab:~</span>
+            <span class="term-live"><span class="pulse-dot"></span>ao vivo</span>
+          </div>
+          <div class="term-body" id="termBody"></div>
+        </div>
       </div>
-    </section>
 
-    <!-- Contato -->
-    <section>
-      <div class="divider"></div>
-      <p class="section-title">Contato</p>
-      <div class="contact-area">
-        <p class="contact-desc">
-          Disponível para projetos de infraestrutura, containerização e automação.
-          Alocação recorrente por horas ou projetos pontuais.
-        </p>
-        <a class="btn-primary" href="https://torre.ai/diegobianchetti" target="_blank" rel="noopener">
-          Ver perfil no Torre.ai →
-        </a>
+      <div class="hint" aria-hidden="true">
+        <span>role para começar a jornada</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v16"/><path d="M6 14l6 6 6-6"/></svg>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <footer>
-      <a href="https://oogway.com.br">oogway.com.br</a>
-      &nbsp;·&nbsp;
-      <a href="mailto:contato@oogway.com.br">contato@oogway.com.br</a>
-    </footer>
+  <!-- ═══ 01 · TRAJETÓRIA (experiência qualitativa) ═══ -->
+  <section class="sect" id="trajetoria">
+    <div class="wrap">
+      <p class="kick reveal">01 · Trajetória</p>
+      <h2 class="h2 reveal" style="--d:.06s">Experiência que não cabe<br>em um número</h2>
+      <p class="lede reveal" style="--d:.12s">Mais de duas décadas operando sistemas críticos — quando boa parte do que hoje se chama
+        <em>platform engineering</em> ainda era madrugada de datacenter, cabo de rede e deploy manual às três da manhã.</p>
 
-  </div>
+      <div class="eras">
+        <div class="era reveal" style="--d:.05s">
+          <p class="era-i">era i</p>
+          <p class="era-t">bare-metal</p>
+          <p class="era-d">Servidores físicos e a responsabilidade inteira do stack — do rack ao deploy.</p>
+        </div>
+        <div class="era reveal" style="--d:.12s">
+          <p class="era-i">era ii</p>
+          <p class="era-t">virtualização</p>
+          <p class="era-d">Consolidar hardware sem perder o rastro do que roda em cada VM.</p>
+        </div>
+        <div class="era reveal" style="--d:.19s">
+          <p class="era-i">era iii</p>
+          <p class="era-t">containers</p>
+          <p class="era-d">Empacotar a aplicação com o seu mundo — e fazê-la rodar em qualquer lugar.</p>
+        </div>
+        <div class="era reveal" style="--d:.26s">
+          <p class="era-i">era iv</p>
+          <p class="era-t">automação</p>
+          <p class="era-d">Transformar repetição em código: idempotência como estilo de vida.</p>
+        </div>
+        <div class="era reveal" style="--d:.33s">
+          <p class="era-i">era v</p>
+          <p class="era-t">plataforma</p>
+          <p class="era-d">Infraestrutura como produto: self-service, observável, sem heróis.</p>
+        </div>
+      </div>
 
-  <!-- Viajante da trilha — progressive enhancement: sem JS, a página é idêntica -->
-  <script>
-    (function () {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      var trilha = document.querySelector('.trilha');
-      if (!trilha) return;
+      <p class="eras-close reveal" style="--d:.1s">// cada era deixou um nó — <b>os quatro que seguem vivos formam a trilha abaixo</b></p>
+    </div>
+  </section>
 
-      var viajante = document.createElement('div');
-      viajante.className = 'trilha-viajante';
-      viajante.setAttribute('aria-hidden', 'true');
-      viajante.innerHTML =
-        '<svg width="18" height="18" viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-linecap="round">'
-        + '<ellipse cx="11" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(-35 11 20)"/>'
-        + '<ellipse cx="41" cy="20" rx="4.5" ry="2.6" stroke-width="2" transform="rotate(35 41 20)"/>'
-        + '<ellipse cx="11" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(35 11 38)"/>'
-        + '<ellipse cx="41" cy="38" rx="4" ry="2.4" stroke-width="2" transform="rotate(-35 41 38)"/>'
-        + '<circle cx="26" cy="29" r="14" stroke-width="2"/>'
-        + '<path d="M26 15 L26 23.5 M38.1 22 L30.8 26.2 M38.1 36 L30.8 31.8 M26 43 L26 34.5 M13.9 36 L21.2 31.8 M13.9 22 L21.2 26.2" stroke-width="1"/>'
-        + '<path d="M26 23.5 L30.8 26.2 L30.8 31.8 L26 34.5 L21.2 31.8 L21.2 26.2 Z" stroke-width="1.5" fill="currentColor" fill-opacity="0.12"/>'
-        + '<circle cx="26" cy="11" r="4" stroke-width="2"/>'
-        + '<circle cx="27.3" cy="10" r="0.9" fill="currentColor" stroke="none"/>'
-        + '</svg>';
-      trilha.appendChild(viajante);
-      var tartaruga = viajante.firstChild;
+  <!-- ═══ 02 · A TRILHA (mapa / grafo interativo) ═══ -->
+  <section class="sect" id="trilha">
+    <div class="wrap">
+      <p class="kick reveal">02 · A Trilha</p>
+      <h2 class="h2 reveal" style="--d:.06s">Uma jornada em quatro nós</h2>
+      <p class="lede reveal" style="--d:.12s">Cada nó é um território real de atuação, com destino próprio. O viajante percorre a linha —
+        clique em um nó para descer até ele.</p>
 
-      var ultimoP = 0;
-      var direcao = 1;
+      <div class="map-wrap reveal" style="--d:.15s">
+        <span class="map-live"><span class="pulse-dot"></span>trilha ao vivo</span>
+        <div class="map-scroll">
+          <svg class="map" viewBox="0 0 1000 360" role="img" aria-label="Mapa da trilha: quatro nós navegáveis — Infra Linux, Containers, Automação e Alocação">
+            <path class="map-base" d="M 80 265 C 190 265 250 95 360 95 C 470 95 530 265 640 265 C 750 265 810 95 920 95"/>
+            <path class="map-flow" d="M 80 265 C 190 265 250 95 360 95 C 470 95 530 265 640 265 C 750 265 810 95 920 95"/>
 
-      function update() {
-        var r = trilha.getBoundingClientRect();
-        var vh = window.innerHeight || document.documentElement.clientHeight;
-        var start = vh * 0.8;
-        var end = vh * 0.2;
-        var p = (start - r.top) / (r.height + start - end);
-        p = Math.max(0, Math.min(1, p));
-        viajante.style.top = (8 + p * (r.height - 26)) + 'px';
-        viajante.style.opacity = p > 0.01 ? '1' : '0';
-        if (Math.abs(p - ultimoP) > 0.001) {
-          var novaDirecao = p > ultimoP ? 1 : -1;
-          if (novaDirecao !== direcao) {
-            direcao = novaDirecao;
-            tartaruga.style.transform = direcao === 1 ? 'rotate(180deg)' : 'rotate(0deg)';
-          }
-          ultimoP = p;
-        }
+            <!-- viajante -->
+            <g class="traveler">
+              <animateMotion dur="11s" repeatCount="indefinite" rotate="auto"
+                path="M 80 265 C 190 265 250 95 360 95 C 470 95 530 265 640 265 C 750 265 810 95 920 95"/>
+              <circle r="21" fill="rgba(62,203,156,.12)"/>
+              <g transform="scale(1.32)" fill="none" stroke="#7fe6c2" stroke-width="1.4" stroke-linecap="round">
+                <ellipse cx="-8" cy="7.5" rx="3.8" ry="2.3" transform="rotate(32 -8 7.5)"/>
+                <ellipse cx="-8" cy="-7.5" rx="3.8" ry="2.3" transform="rotate(-32 -8 -7.5)"/>
+                <ellipse cx="5" cy="8" rx="3.3" ry="2.1" transform="rotate(28 5 8)"/>
+                <ellipse cx="5" cy="-8" rx="3.3" ry="2.1" transform="rotate(-28 5 -8)"/>
+                <path d="M-11 0 L-15.5 -1.5"/>
+                <ellipse cx="0" cy="0" rx="11" ry="8.5"/>
+                <circle cx="13" cy="-2" r="3.6"/>
+                <path d="M0 -4.2 L3 0 L0 4.2 L-3 0 Z" stroke-opacity=".85"/>
+              </g>
+              <circle cx="14.2" cy="-3" r=".9" fill="#7fe6c2"/>
+            </g>
+
+            <!-- nó 01 -->
+            <g class="gnode" data-target="infra" tabindex="0" role="link" aria-label="Descer até o nó 01 — Infra Linux">
+              <circle class="nring" cx="80" cy="265" r="30"/>
+              <text class="gnum" x="80" y="269.5" text-anchor="middle">01</text>
+              <text class="gname" x="80" y="322" text-anchor="middle">Infra Linux</text>
+              <text class="gsub" x="80" y="341" text-anchor="middle">fundação</text>
+            </g>
+            <!-- nó 02 -->
+            <g class="gnode" data-target="containers" tabindex="0" role="link" aria-label="Descer até o nó 02 — Containers">
+              <circle class="nring" cx="360" cy="95" r="30"/>
+              <text class="gnum" x="360" y="99.5" text-anchor="middle">02</text>
+              <text class="gsub" x="360" y="24" text-anchor="middle">4 runtimes</text>
+              <text class="gname" x="360" y="46" text-anchor="middle">Containers</text>
+            </g>
+            <!-- nó 03 -->
+            <g class="gnode" data-target="automacao" tabindex="0" role="link" aria-label="Descer até o nó 03 — Automação">
+              <circle class="nring" cx="640" cy="265" r="30"/>
+              <text class="gnum" x="640" y="269.5" text-anchor="middle">03</text>
+              <text class="gname" x="640" y="322" text-anchor="middle">Automação</text>
+              <text class="gsub" x="640" y="341" text-anchor="middle">como código</text>
+            </g>
+            <!-- nó 04 (conversão) -->
+            <g class="gnode" data-target="alocacao" tabindex="0" role="link" aria-label="Descer até o nó 04 — Alocação e contato">
+              <circle class="nend" cx="920" cy="95" r="30"/>
+              <circle class="nring" cx="920" cy="95" r="30"/>
+              <text class="gnum" x="920" y="99.5" text-anchor="middle">04</text>
+              <text class="gsub" x="920" y="24" text-anchor="middle">vira projeto</text>
+              <text class="gname" x="920" y="46" text-anchor="middle">Alocação</text>
+            </g>
+          </svg>
+        </div>
+        <p class="map-cap">o último nó da trilha não é conteúdo — <b>é uma conversa</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NÓ 01 · INFRA LINUX ═══ -->
+  <section class="station" id="infra">
+    <span class="wm" aria-hidden="true">01</span>
+    <div class="wrap">
+      <div class="st-grid">
+        <div class="st-copy">
+          <p class="st-kick reveal">Nó 01 · Infra Linux</p>
+          <h3 class="st-title reveal" style="--d:.06s">A base onde tudo se sustenta</h3>
+          <p class="st-sub reveal" style="--d:.1s">debian · kernel · networking · hardening</p>
+          <p class="st-desc reveal" style="--d:.14s">Servidores estáveis, networking afinado, hardening e observabilidade.
+            O tipo de fundação que não aparece no slide — <strong>aparece no uptime</strong>.</p>
+          <div class="chips reveal" style="--d:.18s">
+            <span class="chip">debian</span><span class="chip">kernel &amp; tuning</span><span class="chip">networking</span>
+            <span class="chip">hardening</span><span class="chip">systemd</span><span class="chip">shell</span><span class="chip">backup &amp; restore</span>
+          </div>
+          <div class="st-links reveal" style="--d:.22s">
+            <a href="https://github.com/diegobianchetti/vagrant-libvirt-lab" target="_blank" rel="noopener">↗ vagrant-libvirt-lab</a>
+          </div>
+        </div>
+        <div class="st-visual reveal" style="--d:.1s">
+          <div class="term">
+            <div class="term-head">
+              <span class="tdots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="term-title">prod-server — debian 12</span>
+              <span class="term-live"><span class="pulse-dot"></span>uptime 317d</span>
+            </div>
+            <div class="term-body" style="min-height:228px">
+              <div class="tl"><span class="tp">$</span> uptime</div>
+              <div class="to">&nbsp;&nbsp;21:14:07 up <span class="k">317 days</span>,&nbsp; load: <span class="k">0.18 0.22 0.19</span></div>
+              <div class="tl"><span class="tp">$</span> ss -tulpn | grep -E ':(22|443)'</div>
+              <div class="to">&nbsp;&nbsp;tcp&nbsp; LISTEN&nbsp; 128&nbsp; 0.0.0.0:<span class="k">22</span>&nbsp;&nbsp;&nbsp;&nbsp; sshd</div>
+              <div class="to">&nbsp;&nbsp;tcp&nbsp; LISTEN&nbsp; 511&nbsp; 0.0.0.0:<span class="k">443</span>&nbsp;&nbsp;&nbsp;&nbsp; nginx</div>
+              <div class="tl"><span class="tp">$</span> journalctl -p err --since "30 days ago"</div>
+              <div class="to">&nbsp;&nbsp;<span class="k">sem entradas</span> — é assim que deve ser<span class="cur"></span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NÓ 02 · CONTAINERS ═══ -->
+  <section class="station flip" id="containers">
+    <span class="wm" aria-hidden="true">02</span>
+    <div class="wrap">
+      <div class="st-grid">
+        <div class="st-copy">
+          <p class="st-kick reveal">Nó 02 · Containers</p>
+          <h3 class="st-title reveal" style="--d:.06s">Empacotado uma vez,<br>rodando em qualquer lugar</h3>
+          <p class="st-sub reveal" style="--d:.1s">do runtime local ao orquestrador</p>
+          <p class="st-desc reveal" style="--d:.14s">A camada que transformou infraestrutura em produto transportável.
+            <strong>Quatro ferramentas, quatro papéis</strong> — todas presentes no dia a dia, do laptop ao cluster.</p>
+          <div class="st-links reveal" style="--d:.18s">
+            <a href="https://github.com/diegobianchetti/docker-compose-templates" target="_blank" rel="noopener">↗ docker-compose-templates</a>
+            <a href="https://github.com/diegobianchetti/container-migration-notes" target="_blank" rel="noopener">↗ container-migration-notes</a>
+            <a href="https://github.com/diegobianchetti/nginx-container-hardening" target="_blank" rel="noopener">↗ nginx-container-hardening</a>
+            <a href="https://github.com/diegobianchetti/moodle" target="_blank" rel="noopener">↗ moodle</a>
+            <a href="https://github.com/diegobianchetti/dspace" target="_blank" rel="noopener">↗ dspace</a>
+          </div>
+        </div>
+        <div class="st-visual reveal" style="--d:.1s">
+          <div class="rt-grid">
+            <button class="rt-card" type="button" data-rt="docker" aria-pressed="true">
+              <span class="rt-name">docker
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="rt-tag">build &amp; run</span>
+            </button>
+            <button class="rt-card" type="button" data-rt="podman" aria-pressed="false">
+              <span class="rt-name">podman
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </span>
+ <span class="rt-tag">daemonless · rootless</span>
+            </button>
+            <button class="rt-card" type="button" data-rt="kubernetes" aria-pressed="false">
+              <span class="rt-name">kubernetes
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="rt-tag">orquestração</span>
+            </button>
+            <button class="rt-card" type="button" data-rt="minikube" aria-pressed="false">
+              <span class="rt-name">minikube
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="rt-tag">cluster local</span>
+            </button>
+          </div>
+          <div class="rt-panel" id="rtPanel" aria-live="polite">
+            <p class="rt-ph" id="rtHead"></p>
+            <p class="rt-pd" id="rtDesc"></p>
+            <pre class="rt-cmd" id="rtCmd"></pre>
+            <ul class="rt-pts" id="rtList"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NÓ 03 · AUTOMAÇÃO ═══ -->
+  <section class="station" id="automacao">
+    <span class="wm" aria-hidden="true">03</span>
+    <div class="wrap">
+      <div class="st-grid">
+        <div class="st-copy">
+          <p class="st-kick reveal">Nó 03 · Automação</p>
+          <h3 class="st-title reveal" style="--d:.06s">O que se repete, vira código</h3>
+          <p class="st-sub reveal" style="--d:.1s">ansible · iac · pipelines</p>
+          <p class="st-desc reveal" style="--d:.14s">Provisionamento previsível, configuração idempotente, entrega contínua.
+            Se um humano precisa lembrar de executar, <strong>ainda não está pronto</strong>.</p>
+          <div class="chips reveal" style="--d:.18s">
+            <span class="chip">ansible</span><span class="chip">infrastructure as code</span><span class="chip">ci/cd</span>
+            <span class="chip">git</span><span class="chip">bash</span><span class="chip">templating</span>
+          </div>
+          <div class="st-links reveal" style="--d:.22s">
+            <a href="https://github.com/diegobianchetti/ansible-docker-setup" target="_blank" rel="noopener">↗ ansible-docker-setup</a>
+            <a href="https://github.com/diegobianchetti/cctl" target="_blank" rel="noopener">↗ cctl</a>
+            <a href="https://github.com/diegobianchetti/nginx-proxy" target="_blank" rel="noopener">↗ nginx-proxy</a>
+          </div>
+        </div>
+        <div class="st-visual reveal" style="--d:.1s">
+<pre class="play"><span class="c"># site.yml — exemplo genérico, escrito do zero</span>
+<span class="k">- hosts:</span> webservers
+  <span class="k">become:</span> <span class="v">true</span>
+  <span class="k">roles:</span>
+    - <span class="v">common</span>    <span class="c"># usuários, hardening, tempo</span>
+    - <span class="v">nginx</span>     <span class="c"># TLS, gzip, rate limit</span>
+  <span class="k">tasks:</span>
+    - <span class="k">name:</span> configuração sempre idempotente
+      <span class="k">template:</span>
+        <span class="k">src:</span>  app.conf.j2
+        <span class="k">dest:</span> /etc/nginx/conf.d/app.conf
+      <span class="k">notify:</span> <span class="v">reload nginx</span></pre>
+          <div class="au-grid">
+            <div class="au-card reveal" style="--d:.05s"><span class="au-tag">provisionar</span><p>Do zero ao servidor utilizável em um playbook.</p></div>
+            <div class="au-card reveal" style="--d:.12s"><span class="au-tag">configurar</span><p>Estado declarado — reaplicar sem medo, sem drift.</p></div>
+            <div class="au-card reveal" style="--d:.19s"><span class="au-tag">entregar</span><p>Pipelines que constroem, testam e publicam.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ NÓ 04 · ALOCAÇÃO (conversão) ═══ -->
+  <section class="station st-full" id="alocacao">
+    <span class="wm" aria-hidden="true">04</span>
+    <div class="wrap">
+      <div class="st-head">
+        <p class="st-kick reveal">Nó 04 · Alocação</p>
+        <h3 class="st-title reveal" style="--d:.06s">O último nó vira projeto</h3>
+        <p class="st-sub reveal" style="--d:.1s">horas recorrentes · projeto pontual</p>
+        <p class="st-desc reveal" style="--d:.14s">Dois formatos de engajar — presença contínua em time, ou escopo fechado com
+          <strong>hand-off documentado</strong>. A trilha termina quando a sua começa.</p>
+      </div>
+
+      <div class="alloc-grid">
+        <div class="mode reveal" style="--d:.08s">
+          <span class="mode-tag">alocação mensal</span>
+          <h4>Horas recorrentes</h4>
+          <ul>
+            <li>Presença contínua no time</li>
+            <li>Prioridade e ritmo de squad</li>
+            <li>Evolução constante da plataforma</li>
+          </ul>
+          <p class="fit">ideal para: manutenção viva e evolução contínua</p>
+        </div>
+        <div class="mode reveal" style="--d:.16s">
+          <span class="mode-tag">escopo fechado</span>
+          <h4>Projeto pontual</h4>
+          <ul>
+            <li>Diagnóstico e escopo definidos</li>
+            <li>Entregas datadas e documentadas</li>
+            <li>Hand-off com conhecimento transferido</li>
+          </ul>
+          <p class="fit">ideal para: migrações, containerização, automação pontual</p>
+        </div>
+      </div>
+
+      <div class="cta-banner reveal" style="--d:.1s">
+        <h3>Pronto para o próximo deploy?</h3>
+        <p>O último nó da trilha é uma conversa. Me conta o sistema que precisa ficar de pé.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:contato@oogway.com.br">contato@oogway.com.br</a>
+          <a class="btn btn-ghost" href="https://github.com/diegobianchetti" target="_blank" rel="noopener">GitHub ↗</a>
+        </div>
+        <a class="torre" href="https://torre.ai/diegobianchetti" target="_blank" rel="noopener">perfil no torre.ai ↗</a>
+        <p class="mono-note">MEI/PJ · remoto · fuso BRT · resposta no mesmo dia útil</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="foot">
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <p class="foot-brand">
+            <svg class="bt" viewBox="0 0 46 28" width="19" height="12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true">
+              <ellipse cx="19" cy="14" rx="11" ry="8"/>
+              <circle cx="36" cy="12.5" r="3.6"/>
+              <circle cx="37.2" cy="11.6" r=".7" fill="currentColor" stroke="none"/>
+              <path d="M9 9 L4 6.5"/><path d="M9 19 L4 21.5"/>
+              <path d="M26 18.5 L30.5 22"/><path d="M8 14 L3 14"/>
+            </svg>
+            OOGWAY
+          </p>
+          <p class="foot-sub">infra linux · containers · automação</p>
+        </div>
+        <div class="foot-right">
+          <p class="foot-credit">consultoria conduzida por Diego Bianchetti</p>
+          <div class="foot-links">
+            <a href="https://github.com/diegobianchetti" target="_blank" rel="noopener">github ↗</a>
+            <a href="https://torre.ai/diegobianchetti" target="_blank" rel="noopener">torre ↗</a>
+            <a href="mailto:contato@oogway.com.br">contato@oogway.com.br</a>
+          </div>
+        </div>
+      </div>
+      <p class="foot-note">referência visual de redesign · código escrito do zero · dados fictícios · nenhum cliente mencionado</p>
+    </div>
+  </footer>
+
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var fine = matchMedia('(pointer: fine)').matches;
+
+  /* ── progresso + nav ── */
+  var bar = document.querySelector('#pbar i');
+  var nav = document.getElementById('nav');
+  function onScroll(){
+    var st = window.scrollY || document.documentElement.scrollTop;
+    var h = document.documentElement.scrollHeight - window.innerHeight;
+    if(bar) bar.style.transform = 'scaleX(' + (h > 0 ? st/h : 0) + ')';
+    if(nav) nav.classList.toggle('scrolled', st > 24);
+  }
+  window.addEventListener('scroll', function(){ requestAnimationFrame(onScroll); }, {passive:true});
+
+  /* ── rail ativo ── */
+  var rail = document.querySelector('.rail');
+  var railFill = document.querySelector('.rail-fill');
+  var railItems = [].slice.call(document.querySelectorAll('.ri'));
+  var railDots = railItems.map(function(it){ return it.querySelector('.rdot'); });
+  var navLinks = [].slice.call(document.querySelectorAll('.nav-links a'));
+  var secIds = ['inicio','infra','containers','automacao','alocacao'];
+  var activeIdx = 0;
+
+  function setActive(i){
+    activeIdx = i;
+    railItems.forEach(function(it, idx){ it.classList.toggle('on', idx === i); });
+    navLinks.forEach(function(a, idx){ a.classList.toggle('on', idx === i - 1); });
+    if(rail && rail.offsetParent !== null && railDots.length){
+      var rr = rail.getBoundingClientRect();
+      var r0 = railDots[0].getBoundingClientRect();
+      var r1 = railDots[i].getBoundingClientRect();
+      var y0 = r0.top + r0.height/2 - rr.top;
+      var y1 = r1.top + r1.height/2 - rr.top;
+      railFill.style.top = y0 + 'px';
+      railFill.style.height = Math.max(0, y1 - y0) + 'px';
+    }
+  }
+  var sio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        var i = secIds.indexOf(en.target.id);
+        if(i > -1) setActive(i);
       }
+    });
+  }, {rootMargin:'-42% 0px -52% 0px', threshold:0});
+  secIds.forEach(function(id){ var s = document.getElementById(id); if(s) sio.observe(s); });
+  window.addEventListener('resize', function(){ setActive(activeIdx); onScroll(); });
+  setActive(0);
+  onScroll();
 
-      var ticking = false;
-      function onScroll() {
-        if (ticking) return;
-        ticking = true;
-        window.requestAnimationFrame(function () {
-          update();
-          ticking = false;
-        });
+  /* ── reveal ── */
+  var rio = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){ en.target.classList.add('on'); rio.unobserve(en.target); }
+    });
+  }, {threshold:.16});
+  [].forEach.call(document.querySelectorAll('.reveal'), function(el){ rio.observe(el); });
+
+  /* ── partículas ── */
+  if(!reduced){
+    var ps = document.getElementById('ps');
+    if(ps){
+      for(var i = 0; i < 26; i++){
+        var p = document.createElement('span');
+        p.style.left = (Math.random()*100) + '%';
+        var s = 1.5 + Math.random()*2.5;
+        p.style.width = s + 'px';
+        p.style.height = s + 'px';
+        p.style.setProperty('--o', (0.12 + Math.random()*0.3).toFixed(2));
+        p.style.animationDuration = (11 + Math.random()*17) + 's';
+        p.style.animationDelay = (-Math.random()*24) + 's';
+        ps.appendChild(p);
       }
+    }
+  }
 
-      window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', onScroll);
-      update();
+  /* ── glow do cursor + tilt do hero ── */
+  if(fine && !reduced){
+    var glow = document.getElementById('cglow');
+    var tx = -600, ty = -600, cx = tx, cy = ty;
+    addEventListener('pointermove', function(e){ tx = e.clientX; ty = e.clientY; }, {passive:true});
+    (function loop(){
+      cx += (tx - cx) * 0.12;
+      cy += (ty - cy) * 0.12;
+      if(glow) glow.style.transform = 'translate3d(' + (cx-260) + 'px,' + (cy-260) + 'px,0)';
+      requestAnimationFrame(loop);
     })();
-  </script>
 
+    if(window.innerWidth > 860){
+      var hero = document.querySelector('.hero');
+      var inner = document.querySelector('.hero-inner');
+      var rx = 0, ry = 0, trx = 0, try_ = 0;
+      if(hero && inner){
+        hero.addEventListener('pointermove', function(e){
+          var r = hero.getBoundingClientRect();
+          var nx = (e.clientX - r.left) / r.width - 0.5;
+          var ny = (e.clientY - r.top) / r.height - 0.5;
+          try_ = nx * 5.5;
+          trx = -ny * 4;
+        });
+        hero.addEventListener('pointerleave', function(){ trx = 0; try_ = 0; });
+        (function tilt(){
+          rx += (trx - rx) * 0.08;
+          ry += (try_ - ry) * 0.08;
+          inner.style.transform = 'perspective(1200px) rotateX(' + rx.toFixed(2) + 'deg) rotateY(' + ry.toFixed(2) + 'deg)';
+          requestAnimationFrame(tilt);
+        })();
+      }
+    }
+  }
+
+  /* ── nós do grafo → navegação ── */
+  [].forEach.call(document.querySelectorAll('.gnode'), function(g){
+    var go = function(){
+      var t = document.getElementById(g.getAttribute('data-target'));
+      if(t) t.scrollIntoView({behavior: reduced ? 'auto' : 'smooth', block: 'start'});
+    };
+    g.addEventListener('click', go);
+    g.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); go(); }
+    });
+  });
+
+  /* ── nós 02 · runtimes ── */
+  var RT = {
+    docker: {
+      tag: 'build & run',
+      desc: 'O padrão de facto para construir, versionar e rodar imagens — do Dockerfile ao compose que sobe a stack inteira em produção.',
+      cmd: '$ docker compose -f stack.yml up -d',
+      pts: ['Imagens versionadas e reutilizáveis','Compose orquestra serviços completos','Registry como fonte de verdade para deploys']
+    },
+    podman: {
+      tag: 'daemonless · rootless',
+      desc: 'Containers sem daemon e sem root — segurança por arquitetura, com CLI compatível com o ecossistema Docker.',
+      cmd: '$ podman build -t app:latest . && podman run -d app:latest',
+      pts: ['Sem daemon central para atacar','Rootless por padrão','Pods nativos no estilo Kubernetes']
+    },
+    kubernetes: {
+      tag: 'orquestração',
+      desc: 'Onde containers viram plataforma: estado desejado declarado, escala horizontal, self-healing e rollouts controlados.',
+      cmd: '$ kubectl apply -f namespace/ && kubectl rollout status deploy/api',
+      pts: ['Declaração de estado, não procedimento','Rollouts e rollbacks reversíveis','Escalonamento sob demanda']
+    },
+    minikube: {
+      tag: 'cluster local',
+      desc: 'Um cluster de verdade dentro da máquina — validar manifests e fluxos antes de tocar em produção.',
+      cmd: '$ minikube start -p lab && kubectl get nodes',
+      pts: ['Validação fiel ao ambiente real','Iteração rápida em manifests','Custo zero de cloud para testar']
+    }
+  };
+  var cards = [].slice.call(document.querySelectorAll('.rt-card'));
+  var panel = document.getElementById('rtPanel');
+  var ph = document.getElementById('rtHead');
+  var pd = document.getElementById('rtDesc');
+  var pc = document.getElementById('rtCmd');
+  var pl = document.getElementById('rtList');
+
+  function fill(key){
+    var d = RT[key];
+    ph.textContent = key + ' — ' + d.tag;
+    pd.textContent = d.desc;
+    pc.textContent = d.cmd;
+    pl.innerHTML = d.pts.map(function(p){ return '<li>' + p + '</li>'; }).join('');
+  }
+  function select(key, card, instant){
+    cards.forEach(function(c){
+      var on = c === card;
+      c.classList.toggle('on', on);
+      c.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+    if(instant || !panel){ fill(key); return; }
+    panel.classList.add('fade');
+    setTimeout(function(){ fill(key); panel.classList.remove('fade'); }, 200);
+  }
+  cards.forEach(function(c){
+    c.addEventListener('click', function(){ select(c.getAttribute('data-rt'), c, false); });
+  });
+  if(cards.length) select('docker', cards[0], true);
+
+  /* ── terminal do hero (digitando em loop) ── */
+  var term = document.getElementById('termBody');
+  var SEQ = [
+    { cmd: 'docker compose ps', out: ['app       running (healthy)   0.0.0.0:8080 → 80', 'watcher   running (healthy)   0.0.0.0:9090 → 9090'] },
+    { cmd: 'ansible all -m ping', out: ['web-01 | SUCCESS => { "ping": "pong" }', 'db-01  | SUCCESS => { "ping": "pong" }'] },
+    { cmd: 'kubectl get nodes', out: ['NAME    STATUS   ROLES    VERSION', 'lab-1   Ready    worker   v1.31.2', 'lab-2   Ready    worker   v1.31.2'] }
+  ];
+  function mkLine(txt){
+    var d = document.createElement('div');
+    d.className = 'to';
+    d.textContent = txt;
+    return d;
+  }
+  function mkCmd(){
+    var l = document.createElement('div');
+    l.className = 'tl';
+    l.innerHTML = '<span class="tp">$</span> <span class="tc"></span><span class="cur"></span>';
+    return l;
+  }
+  if(term){
+    if(reduced){
+      SEQ.forEach(function(s){
+        var l = mkCmd();
+        l.querySelector('.tc').textContent = s.cmd;
+        l.querySelector('.cur').remove();
+        term.appendChild(l);
+        s.out.forEach(function(o){ term.appendChild(mkLine(o)); });
+      });
+    } else {
+      var sleep = function(ms){ return new Promise(function(r){ setTimeout(r, ms); }); };
+      (async function(){
+        await sleep(1100);
+        for(;;){
+          term.innerHTML = '';
+          for(var i = 0; i < SEQ.length; i++){
+            var s = SEQ[i];
+            var l = mkCmd();
+            term.appendChild(l);
+            var tc = l.querySelector('.tc');
+            var cur = l.querySelector('.cur');
+            for(var j = 0; j < s.cmd.length; j++){
+              tc.textContent += s.cmd[j];
+              await sleep(20 + Math.random()*44);
+            }
+            await sleep(300);
+            cur.remove();
+            for(var k = 0; k < s.out.length; k++){
+              term.appendChild(mkLine(s.out[k]));
+              await sleep(150);
+            }
+            await sleep(680);
+          }
+          var c = mkCmd();
+          term.appendChild(c);
+          var t2 = c.querySelector('.tc');
+          var cl = 'clear';
+          for(var m = 0; m < cl.length; m++){
+            t2.textContent += cl[m];
+            await sleep(85);
+          }
+          await sleep(750);
+        }
+      })();
+    }
+  }
+})();
+</script>
 </body>
 </html>
